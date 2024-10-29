@@ -8,6 +8,7 @@ mais[1][2] => rand 1-9 != matriz[1][1]
 ==3 => rand 1-9 != ==1 && != 2
 
 matriz[2][1] => rand 1-9 != matriz[1][1]
+//com uma solução correta vocẽ pode trocar inhas e colunas de mesmo bloco e ela ainda estara correta assim podendo criar diversas matrizes corretas
 
 verifica a matriz resposta
 
