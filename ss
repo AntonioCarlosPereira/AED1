@@ -8,3 +8,4 @@ int main() {
     
     return 0;
 }
+//como funciona as listas com e sem cabeça?
