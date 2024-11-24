@@ -7,15 +7,21 @@
 typedef struct Pilha {
     int topo;
     unsigned capacidade;
+    //unsigned é um tipo de variavel inteira não negativa
     char* array;
+    //ponteiro para o proximo valor
 } Pilha;
 
 // Função para criar a pilha com uma capacidade dada
 Pilha* criarPilha(unsigned capacidade) {
     Pilha* pilha = (Pilha*) malloc(sizeof(Pilha));
+    //cria um nó 'pilha' com indetificador igual a struct Pilha e o tamalho igual ao da struct Pilha
     pilha->capacidade = capacidade;
+    //define um tamanho
     pilha->topo = -1;
+    //define um valor
     pilha->array = (char*) malloc(pilha->capacidade * sizeof(char));
+    //define o ponteiro
     return pilha;
 }
 
