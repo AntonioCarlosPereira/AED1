@@ -12,44 +12,45 @@ typedef struct No {
 
 // Insere no topo (para pilha ou fila de prioridade)
 void inserir_inicio(No **inicio, int valor) {
-    No *novo = (No *)malloc(sizeof(No));
+    No *novo = (No *)malloc(sizeof(No)); // Cria um novo nó
     novo->valor = valor;
-    novo->proximo = *inicio;
-    *inicio = novo;
+    novo->proximo = *inicio; // O próximo do novo nó aponta para o início da lista
+    *inicio = novo; // Atualiza o início da lista
 }
 
 // Insere no fim (para fila)
 void inserir_fim(No **inicio, int valor) {
-    No *novo = (No *)malloc(sizeof(No));
+    No *novo = (No *)malloc(sizeof(No)); // Cria um novo nó
     novo->valor = valor;
-    novo->proximo = NULL;
+    novo->proximo = NULL; // O próximo do novo nó é NULL
 
     if (*inicio == NULL) {
-        *inicio = novo;
+        *inicio = novo; // Se a lista estiver vazia, o novo nó é o início
     } else {
         No *atual = *inicio;
         while (atual->proximo != NULL) {
-            atual = atual->proximo;
+            atual = atual->proximo; // Vai até o final da lista
         }
-        atual->proximo = novo;
+        atual->proximo = novo; // O último nó aponta para o novo nó
     }
 }
 
 // Insere de forma ordenada (para fila de prioridade)
 void inserir_ordenado(No **inicio, int valor) {
-    No *novo = (No *)malloc(sizeof(No));
+    No *novo = (No *)malloc(sizeof(No)); // Cria um novo nó
     novo->valor = valor;
 
+    // Insere o novo nó na posição correta (ordenada)
     if (*inicio == NULL || (*inicio)->valor < valor) {
-        novo->proximo = *inicio;
+        novo->proximo = *inicio; // Coloca o novo nó no início
         *inicio = novo;
     } else {
         No *atual = *inicio;
         while (atual->proximo != NULL && atual->proximo->valor >= valor) {
-            atual = atual->proximo;
+            atual = atual->proximo; // Encontra a posição correta
         }
-        novo->proximo = atual->proximo;
-        atual->proximo = novo;
+        novo->proximo = atual->proximo; // Coloca o novo nó na posição
+        atual->proximo = novo; // Atualiza o ponteiro do nó anterior
     }
 }
 
@@ -59,8 +60,8 @@ int remover_inicio(No **inicio) {
 
     No *removido = *inicio;
     int valor = removido->valor;
-    *inicio = removido->proximo;
-    free(removido);
+    *inicio = removido->proximo;  // Atualiza o início da lista
+    free(removido); // Libera a memória do nó removido
     return valor;
 }
 
@@ -72,7 +73,7 @@ bool lista_vazia(No *inicio) {
 // Limpa toda a lista
 void limpar_lista(No **inicio) {
     while (!lista_vazia(*inicio)) {
-        remover_inicio(inicio);
+        remover_inicio(inicio); // Remove todos os nós
     }
 }
 
@@ -119,24 +120,4 @@ int main() {
 
         // Determinar o resultado
         int count = is_stack + is_queue + is_pqueue;
-        if (count == 0) {
-            printf("impossible\n");
-        } else if (count > 1) {
-            printf("not sure\n");
-        } else if (is_stack) {
-            printf("stack\n");
-        } else if (is_queue) {
-            printf("queue\n");
-        } else if (is_pqueue) {
-            printf("priority queue\n");
-        }
-
-        // Limpar memória
-        limpar_lista(&pilha);
-        limpar_lista(&fila);
-        limpar_lista(&fila_prioridade);
-    }
-
-    return 0;
-}
-
+        if (count == 
