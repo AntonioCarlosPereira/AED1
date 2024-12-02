@@ -11,6 +11,7 @@ typedef struct Fila {
 
 // Função para adicionar um elemento à fila
 void Push(Fila **p, int x) {
+    //O ponteiro duplo é utilizado pois ao passar um ponteiro para uma função ela recebe o valor do ponteiro ou seja ela não altera o ponteiro em si para que isso ocorra devemos passar o endereço do ponteiro
     Fila *new = malloc(sizeof(Fila));  // Aloca memória para um novo nó
     if (new == NULL) {
         printf("Erro de alocação de memória\n");
