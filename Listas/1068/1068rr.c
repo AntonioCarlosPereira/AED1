@@ -76,7 +76,11 @@ char* verificarParenteses(char* s) {
                 break;
 
             case '(':
+                push(pilha, s[i]);  // Adiciona o caractere à pilha
+                break;
             case '{':
+                push(pilha, s[i]);  // Adiciona o caractere à pilha
+                break;
             case '[':  // Caso seja um parêntese, chave ou colchete de abertura
                 push(pilha, s[i]);  // Adiciona o caractere à pilha
                 break;
