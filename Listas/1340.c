@@ -120,4 +120,25 @@ int main() {
 
         // Determinar o resultado
         int count = is_stack + is_queue + is_pqueue;
-        if (count == 
+        if (count == 0) {
+            printf("impossible\n");
+        } else if (count > 1) {
+            printf("not sure\n");
+        } else {
+            if (is_stack) {
+                printf("stack\n");
+            } else if (is_queue) {
+                printf("queue\n");
+            } else if (is_pqueue) {
+                printf("priority queue\n");
+            }
+        }
+
+        // Limpar as listas
+        limpar_lista(&pilha);
+        limpar_lista(&fila);
+        limpar_lista(&fila_prioridade);
+    }
+
+    return 0;
+}
