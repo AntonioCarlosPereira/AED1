@@ -1,0 +1,6 @@
+    -iniciar uma matriz com altura y e largura x
+    -preencher ela de acordo com as casas dadas ( ler como vetor\fgets)
+    -função percorrer a matriz iniciando do (0,0)
+    -a cada flecha que passar armazena-la em um vetor Flechas
+    -a cada casa que passar comparala com o vetor Flechas se for igual-> break
+    -se encontrar uma casa * printf("!")
