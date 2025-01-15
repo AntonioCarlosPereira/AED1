@@ -18,25 +18,23 @@ char percorrer_matriz(int altura, int largura, char matriz[MAX][MAX]) {
     int flechas[MAX][2];  // Vetor para armazenar as posições visitadas
     int n_flechas = 0;    // Contador de posições visitadas
     int x = 0, y = 0;     // Posição inicial
-    char atual;
-    
-        // Verifica se a posição inicial é uma flecha válida ou o baú
+
+    // Verifica se a posição inicial é válida
     if (matriz[0][0] != '>' && matriz[0][0] != '<' &&
         matriz[0][0] != 'v' && matriz[0][0] != '^' &&
         matriz[0][0] != '*') {
-        return '!'; // Mapa inválido
+        return '!'; // Posição inicial inválida
     }
-
 
     while (1) {
         // Verifica se a posição está fora dos limites
         if (x < 0 || x >= altura || y < 0 || y >= largura) {
-            return '!';
+            return '!'; // Sair do mapa é inválido
         }
 
         // Verifica se a posição atual já foi visitada
         if (foi_visitada(x, y, flechas, n_flechas)) {
-            return '!';
+            return '!'; // Encontrou um ciclo
         }
 
         // Armazena a posição atual no vetor de flechas
@@ -45,7 +43,7 @@ char percorrer_matriz(int altura, int largura, char matriz[MAX][MAX]) {
         n_flechas++;
 
         // Verifica o conteúdo da casa atual
-        atual = matriz[x][y];
+        char atual = matriz[x][y];
         if (atual == '*') {
             return '*';  // Encontrou o baú
         } else if (atual == '>') {
@@ -56,7 +54,10 @@ char percorrer_matriz(int altura, int largura, char matriz[MAX][MAX]) {
             x++;  // Vai para baixo
         } else if (atual == '^') {
             x--;  // Vai para cima
-        } else {
+        } else if (atual == '.') {
+        // Espaço atravessável, apenas continua
+        // Não altera x nem y
+        }else {
             return '!';  // Qualquer outro caractere é inválido
         }
     }
@@ -66,7 +67,7 @@ int main() {
     int largura, altura;
     char matriz[MAX][MAX];
 
-    // Lê a largura e a altura do mapa
+    // Lê a largura e altura do mapa
     scanf("%d", &largura);
     scanf("%d", &altura);
 
