@@ -1,0 +1,5 @@
+-montar o grafo
+-utilizar dijakstra para achar a rota de servico com o numero certo de estradas 
+-armazenar as cidades participantes dessas rotas
+-utilizar dijaksta para achar o menor caminho apartir do ponto de reparo 
+-verificar se este caminho não passa pela rota
