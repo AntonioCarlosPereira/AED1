@@ -164,3 +164,219 @@ int main() {
 
     return dist[end];  // Retorna a distância do vértice de origem até o destino
 }
+-----------------------------------------------------------------------------------------------------------------------------------------------
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h> // Para INT_MAX
+
+#define MAX_VERTICES 100  // Número máximo de vértices permitido
+
+// Função para inicializar a matriz de adjacência
+void inicializarGrafo(int grafo[MAX_VERTICES][MAX_VERTICES], int vertices) {
+    for (int i = 0; i < vertices; i++) {
+        for (int j = 0; j < vertices; j++) {
+            grafo[i][j] = 0;  // Inicializa todos os pesos com 0 (sem aresta)
+        }
+    }
+}
+
+// Função para adicionar uma aresta com peso
+void adicionarAresta(int grafo[MAX_VERTICES][MAX_VERTICES], int origem, int destino, int peso) {
+    grafo[origem][destino] = peso;  // Aresta de origem para destino
+    grafo[destino][origem] = peso;  // Aresta de destino para origem (grafo não direcionado)
+}
+
+// Função para encontrar o vértice com menor distância
+int minDistance(int dist[], int visited[], int vertices) {
+    int min = INT_MAX, min_index;
+
+    for (int v = 0; v < vertices; v++) {
+        if (!visited[v] && dist[v] <= min) {
+            min = dist[v];
+            min_index = v;
+        }
+    }
+    return min_index;
+}
+
+// Função de Dijkstra com sequência
+int dijkstraComSequencia(int grafo[MAX_VERTICES][MAX_VERTICES], int vertices, int start, int end) {
+    int dist[vertices];   // Distâncias mínimas
+    int visited[vertices]; // Vértices visitados
+    int forced = 0;        // Flag para indicar quando forçamos a sequência
+
+    // Inicializa as distâncias e os visitados
+    for (int i = 0; i < vertices; i++) {
+        dist[i] = INT_MAX;
+        visited[i] = 0;
+    }
+    dist[start] = 0;
+
+    // Laço principal de Dijkstra
+    for (int count = 0; count < vertices - 1; count++) {
+        int u = minDistance(dist, visited, vertices);  // Escolhe o vértice com a menor distância
+        visited[u] = 1;
+
+        // Se o vértice u for menor que o destino e a sequência ainda não foi forçada
+        if (u < end && !forced) {
+            forced = 1;  // Ativa a sequência forçada
+
+            // Segue a sequência numérica até o destino
+            for (int v = u + 1; v <= end; v++) {
+                if (grafo[u][v] && dist[u] != INT_MAX) {
+                    dist[v] = dist[u] + grafo[u][v];  // Atualiza a distância
+                    u = v;  // Move para o próximo vértice numericamente maior
+                }
+            }
+        } else {
+            // Atualiza as distâncias dos vizinhos de u normalmente
+            for (int v = 0; v < vertices; v++) {
+                if (!visited[v] && grafo[u][v] && dist[u] != INT_MAX && dist[u] + grafo[u][v] < dist[v]) {
+                    dist[v] = dist[u] + grafo[u][v];
+                }
+            }
+        }
+    }
+
+    return dist[end];  // Retorna a distância do vértice de origem até o destino
+}
+
+int main() {
+    int grafo[MAX_VERTICES][MAX_VERTICES];
+    int vertices, arestas, rota, origem;
+
+    // Leitura do número de vértices e arestas
+    scanf("%d %d %d %d", &vertices, &arestas, &rota, &origem);
+
+    // Inicializa o grafo com o número de vértices
+    inicializarGrafo(grafo, vertices);
+
+    // Processamento das arestas
+    for (int i = 0; i < arestas; i++) {
+        int origemAresta, destino, peso;
+        // Leitura de cada aresta
+        scanf("%d %d %d", &origemAresta, &destino, &peso);
+
+        // Verifica se os vértices fornecidos estão dentro do intervalo válido
+        if (origemAresta >= 0 && origemAresta < vertices && destino >= 0 && destino < vertices) {
+            // Adiciona a aresta ao grafo
+            adicionarAresta(grafo, origemAresta, destino, peso);
+        }
+    }
+
+    // Executa o algoritmo de Dijkstra e obtém o resultado
+    int result = dijkstraComSequencia(grafo, vertices, origem, rota);
+
+    // Imprime o resultado
+    printf("%d\n", result);
+
+    return 0;
+}
+------------------------------------------------------------------------------------------------------------------------------------------------
+    #include <stdio.h>
+#include <stdlib.h>
+#include <limits.h> // Para INT_MAX
+
+#define MAX_VERTICES 100  // Número máximo de vértices permitido
+
+// Função para inicializar a matriz de adjacência
+void inicializarGrafo(int grafo[MAX_VERTICES][MAX_VERTICES], int vertices) {
+    for (int i = 0; i < vertices; i++) {
+        for (int j = 0; j < vertices; j++) {
+            grafo[i][j] = 0;  // Inicializa todos os pesos com 0 (sem aresta)
+        }
+    }
+}
+
+// Função para adicionar uma aresta com peso
+void adicionarAresta(int grafo[MAX_VERTICES][MAX_VERTICES], int origem, int destino, int peso) {
+    grafo[origem][destino] = peso;  // Aresta de origem para destino
+    grafo[destino][origem] = peso;  // Aresta de destino para origem (grafo não direcionado)
+}
+
+// Função para encontrar o vértice com menor distância
+int minDistance(int dist[], int visited[], int vertices) {
+    int min = INT_MAX, min_index;
+
+    for (int v = 0; v < vertices; v++) {
+        if (!visited[v] && dist[v] <= min) {
+            min = dist[v];
+            min_index = v;
+        }
+    }
+    return min_index;
+}
+
+// Função de Dijkstra com sequência
+int dijkstraComSequencia(int grafo[MAX_VERTICES][MAX_VERTICES], int vertices, int start, int end) {
+    int dist[vertices];   // Distâncias mínimas
+    int visited[vertices]; // Vértices visitados
+    int forced = 0;        // Flag para indicar quando forçamos a sequência
+
+    // Inicializa as distâncias e os visitados
+    for (int i = 0; i < vertices; i++) {
+        dist[i] = INT_MAX;
+        visited[i] = 0;
+    }
+    dist[start] = 0;
+
+    // Laço principal de Dijkstra
+    for (int count = 0; count < vertices - 1; count++) {
+        int u = minDistance(dist, visited, vertices);  // Escolhe o vértice com a menor distância
+        visited[u] = 1;
+
+        // Se o vértice u for menor que o destino e a sequência ainda não foi forçada
+        if (u < end && !forced) {
+            forced = 1;  // Ativa a sequência forçada
+
+            // Segue a sequência numérica até o destino
+            for (int v = u + 1; v <= end; v++) {
+                if (grafo[u][v] && dist[u] != INT_MAX) {
+                    dist[v] = dist[u] + grafo[u][v];  // Atualiza a distância
+                    u = v;  // Move para o próximo vértice numericamente maior
+                }
+            }
+        } else {
+            // Atualiza as distâncias dos vizinhos de u normalmente
+            for (int v = 0; v < vertices; v++) {
+                if (!visited[v] && grafo[u][v] && dist[u] != INT_MAX && dist[u] + grafo[u][v] < dist[v]) {
+                    dist[v] = dist[u] + grafo[u][v];
+                }
+            }
+        }
+    }
+
+    return dist[end];  // Retorna a distância do vértice de origem até o destino
+}
+
+int main() {
+    int grafo[MAX_VERTICES][MAX_VERTICES];
+    int vertices, arestas, rota, origem;
+
+    // Leitura do número de vértices e arestas
+    scanf("%d %d %d %d", &vertices, &arestas, &rota, &origem);
+
+    // Inicializa o grafo com o número de vértices
+    inicializarGrafo(grafo, vertices);
+
+    // Processamento das arestas
+    for (int i = 0; i < arestas; i++) {
+        int origemAresta, destino, peso;
+        // Leitura de cada aresta
+        scanf("%d %d %d", &origemAresta, &destino, &peso);
+
+        // Verifica se os vértices fornecidos estão dentro do intervalo válido
+        if (origemAresta >= 0 && origemAresta < vertices && destino >= 0 && destino < vertices) {
+            // Adiciona a aresta ao grafo
+            adicionarAresta(grafo, origemAresta, destino, peso);
+        }
+    }
+
+    // Executa o algoritmo de Dijkstra e obtém o resultado
+    int result = dijkstraComSequencia(grafo, vertices, origem, rota);
+
+    // Imprime o resultado
+    printf("%d\n", result);
+
+    return 0;
+}
