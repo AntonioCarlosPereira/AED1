@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <limits.h> // Para usar INT_MAX
 
-struct {
+typedef struct {
     int u, v, w;
     //os dois vertices e o peso da aresta
 } Aresta;
