@@ -28,3 +28,20 @@ bool Pesquisa(ArvoreB* Raiz, int valor){//função retorna se o elemento esta pr
     }
 }
 
+int busca_binaria(int v[], int n, int x) {//busca binaria em um vetor
+    int esquerda = 0, direita = n - 1;
+
+    while (esquerda <= direita) {
+        int meio = esquerda + (direita - esquerda) / 2;
+
+        if (v[meio] == x) {
+            return meio; // Encontrou o elemento
+        } else if (v[meio] < x) {
+            esquerda = meio + 1; // Buscar na metade direita
+        } else {
+            direita = meio - 1; // Buscar na metade esquerda
+        }
+    }
+    
+    return n; // Elemento não encontrado
+}
