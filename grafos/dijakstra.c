@@ -11,12 +11,40 @@ typedef struct{
     int tamanho;
 } minHeap;
 
-void pushHeap(){
-    
+void pushHeap(minHeap *heap, int valor){
+    heap->elementos[heap->tamanho] = elemento;
+    int i = heap->tamanho;
+    heap->tamanho++;
+
+    while(i > 0 && heap->elementos[i].valor < heap->elemento[(i -1) / 2].valor){
+        node aux = heap->elementos[i];
+        heap->elementos[i].valor = heap->elemento[(i -1) / 2];
+        heap->elemento[(i -1) / 2] = aux;
+        i = (i -1) / 2;
+    }
 }
 
-void popHeap(){
-    
+void popHeap(heap){
+    node raiz = heap->elementos[0];
+    heap->elementos[0] = heap elementos[heap->tamanho -1];
+    heap->tamanho--;
+    int i = 0;
+
+    while(2*i +1 < heap->tamanho){
+        int menor = 2*i +1;
+        if(menor + 1< heap->tamanho && heap->elementos[menor+1].valor < heap->elementos[menor].valor){//escolhe qual o menor filho entre o direito e o esquerdo
+            menor++;
+        }
+        if(heap->elementos[i].valor <= heap->elementos[menor].valor){//quando a propriedade foi restaurada
+            break;
+        }
+        node aux = heap->elementos[i];
+        heap->elementos[i] = heap->elementos[menor];
+        heap->elementos[menor] = aux;
+        i = menor;
+
+    }
+    return raiz;
 }
 
 node graf[260][260];
