@@ -12,16 +12,21 @@ typedef struct ArvoreB{//estrutura de dados da arvoreB
 
 
 ArvoreB *Arv(char preF, char inF, int start, int end){//função que monta a arvore baseada na inf e pre
-    
-    int indice = 0;
-    
-    ArvoreB *node = NewNode(preF[indice++]);//começa a criação com a raiz da arvore vulgo primeiro elemento preF
-    
-    int RaizInf = indRI(char inF, int start, ArvoreB *no->let, inf end);//localização da raiz na infixa
-    node->D = Arv(char preF, char inF, int RaizInf+1, int end);//chamada recursiva para a direita 
-    node->E = Arv(char preF, char inF, int start, int RaizInf-1);//chamada recursiva para a esquerda
-    
-    return node; //retorna a raiz
+
+	if(start == end){
+	break;
+	}
+	
+	int indice = 0;
+	    
+	ArvoreB *node = NewNode(preF[indice++]);//começa a criação com a raiz da arvore vulgo primeiro elemento preF
+	    
+	int RaizInf = indRI(char inF, int start, ArvoreB *no->let, inf end);//localização da raiz na infixa
+	node->E = Arv(char preF, char inF, int start, int RaizInf-1);//chamada recursiva para a esquerda
+	node->D = Arv(char preF, char inF, int RaizInf+1, int end);//chamada recursiva para a direita 
+	    
+	    
+	return node; //retorna a raiz
     
 }
 
