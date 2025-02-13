@@ -1,137 +1,146 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
 
-typedef struct{
+typedef struct {
     int V, valor;
 } node;
 
-
-
-typedef struct{
-    node elementos[260 * 260];
+typedef struct {
+    node elementos[260];
     int tamanho;
 } minHeap;
 
-void pushHeap(minHeap *heap, int valor){
-    heap->elementos[heap->tamanho] = elemento;
+void pushHeap(minHeap *heap, int V, int valor) {
+    node novo = {V, valor};
+    heap->elementos[heap->tamanho] = novo;
     int i = heap->tamanho;
     heap->tamanho++;
 
-    while(i > 0 && heap->elementos[i].valor < heap->elemento[(i -1) / 2].valor){
+    while (i > 0 && heap->elementos[i].valor < heap->elementos[(i - 1) / 2].valor) {
         node aux = heap->elementos[i];
-        heap->elementos[i].valor = heap->elemento[(i -1) / 2];
-        heap->elemento[(i -1) / 2] = aux;
-        i = (i -1) / 2;
+        heap->elementos[i] = heap->elementos[(i - 1) / 2];
+        heap->elementos[(i - 1) / 2] = aux;
+        i = (i - 1) / 2;
     }
 }
 
-void popHeap(heap){
+node popHeap(minHeap *heap) {
     node raiz = heap->elementos[0];
-    heap->elementos[0] = heap elementos[heap->tamanho -1];
+    heap->elementos[0] = heap->elementos[heap->tamanho - 1];
     heap->tamanho--;
     int i = 0;
 
-    while(2*i +1 < heap->tamanho){
-        int menor = 2*i +1;
-        if(menor + 1< heap->tamanho && heap->elementos[menor+1].valor < heap->elementos[menor].valor){//escolhe qual o menor filho entre o direito e o esquerdo
+    while (2 * i + 1 < heap->tamanho) {
+        int menor = 2 * i + 1;
+        if (menor + 1 < heap->tamanho && heap->elementos[menor + 1].valor < heap->elementos[menor].valor) {
             menor++;
         }
-        if(heap->elementos[i].valor <= heap->elementos[menor].valor){//quando a propriedade foi restaurada
+        if (heap->elementos[i].valor <= heap->elementos[menor].valor) {
             break;
         }
         node aux = heap->elementos[i];
         heap->elementos[i] = heap->elementos[menor];
         heap->elementos[menor] = aux;
         i = menor;
-
     }
+
     return raiz;
 }
 
-node graf[260][260];
+int graf[260][260];
 int visited[260];
 int distMin[260];
 int anterior[260];
 
-void initGraf(int n){//valores iniciais de todos os vertices do grafo
-    for(int i = 0; i < n; i++){
+void initGraf(int n) {
+    for (int i = 0; i < n; i++) {
         visited[i] = 0;
         distMin[i] = INT_MAX;
         anterior[i] = -1;
-        
-        for(int j = 0; j<n; j++){
-            graf[i][j] = -1;
+
+        for (int j = 0; j < n; j++) {
+            graf[i][j] = -1;  // Inicializa sem arestas
         }
     }
 }
 
-int dijakstra(int n, int origem, int dest){
-    
-    minHeap heap;//inicia o heap
-    heap.tamnho = 0;//inicia o tamnho do heap como 0
-    distMin[origem] = 0; 
-    
-    node inicial = {origem , 0};  //primeiro no do heap
-    popHeap(heap, inicial);   //adiciona esse primeiro no ao heap
-    
-    while(heap.tamnho > 0){
-        
-        node atual = popHeap(heap);
+void dijkstra(int n, int origem, int destino) {
+    minHeap heap;
+    heap.tamanho = 0;
+    distMin[origem] = 0;
+
+    pushHeap(&heap, origem, 0);
+
+    while (heap.tamanho > 0) {
+        node atual = popHeap(&heap);
         int u = atual.V;
-        
-        if (visitado[u]) continue;
-        visitado[u] = 1;
-        
+
+        if (visited[u]) continue;
+        visited[u] = 1;
+
         if (u == destino) break;
-        
-        for(int v = 0; v< n; v++){//busca o nó adjacente de menor custo
-            
-            if (grafo[u][v] != -1) {  // Se há aresta checa a menor distancia
+
+        for (int v = 0; v < n; v++) {
+            if (graf[u][v] != -1) {
                 int custo_v = distMin[u] + graf[u][v];
+
+                if (distMin[v] > custo_v) {
+                    distMin[v] = custo_v;
+                    anterior[v] = u;
+                    pushHeap(&heap, v, custo_v);
+                }
             }
-              
-            if(distMin[v] > custo_v) {//insere no heap a aresta de menor distancia 
-                distMin[v] = custo_v;
-                anterior[v] = u;
-                pushHeap(heap, (node){v, custo_v});
-                
-            } 
-            
-            
         }
-        
-        
     }
-    
-    
 }
 
-void mimPath(int origem, int destino){
-    if(distMin[destino] = INT_MAX){
-        printf("inexitente");
+void minPath(int origem, int destino) {
+    if (distMin[destino] == INT_MAX) {
+        printf("Caminho inexistente\n");
+        return;
     }
-    
-    int caminho[INT_MAX];
+
+    int caminho[260];
     int atual = destino;
     int tam = 0;
-    
+
     while (atual != -1) {
         caminho[tam++] = atual;
-        atual = predecessores[atual];
+        atual = anterior[atual];
     }
-    
-    for(int i = 0; i < tam; i++){
-        printf()caminho[i];
+
+    printf("Caminho mínimo de %d para %d: ", origem, destino);
+    for (int i = tam - 1; i >= 0; i--) {
+        printf("%d ", caminho[i]);
     }
+    printf("\n");
 }
 
+int main() {
+    int n, m;
+    printf("Digite o número de vértices e arestas: ");
+    scanf("%d %d", &n, &m);
 
-int main(){
-    
+    initGraf(n);
 
+    printf("Digite as arestas no formato: origem destino peso\n");
+    for (int i = 0; i < m; i++) {
+        int u, v, peso;
+        scanf("%d %d %d", &u, &v, &peso);
+        graf[u][v] = peso;
+        graf[v][u] = peso;  // Grafo não direcionado
+    }
+
+    int origem, destino;
+    printf("Digite o vértice de origem e destino: ");
+    scanf("%d %d", &origem, &destino);
+
+    dijkstra(n, origem, destino);
+    minPath(origem, destino);
+
+    return 0;
 }
-
-
-
 
 
 
