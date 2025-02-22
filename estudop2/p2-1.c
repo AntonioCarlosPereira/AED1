@@ -74,3 +74,38 @@ int conexo(G[numv][numv], int numv){
     return 1;
     
 }
+
+int CompConexo(G[numv][numv], int numv){
+    int comp = 0;
+
+    int visited[numv];
+    
+
+    for(int i = 0; i<numv ; i++){
+        visited[i]=0;
+    }
+    
+    for(int c = 0; c<numv ; c++){
+        if(!visited[c]){
+            comp++;
+            int pilha[numv];
+            int top = 0;
+            pilha[top++] = c;
+            visited[c] = 1;
+            
+            while(top>0){
+                int v = pilha[--top];
+                
+                
+                for(int i = 0; i<numv; i++){
+                    if(G[v][i] != 0 && !visited[i]){
+                        visited[i] = 1;
+                        pilha[top++] = i;
+                    }
+                }
+            }
+        }
+    }
+    return comp;
+
+}
