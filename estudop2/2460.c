@@ -6,22 +6,39 @@ typedef struct{
 }list;
 
 
-int popCB(list *head, int id){
-    list *aux = head;
+int popCB(list **head, int id) {
+    if (*head == NULL) {
+        return -1; // A lista está vazia
+    }
+
+    list *aux = *head;
     list *prev = NULL;
-    
-    if(aux != NULL || aux->valor ==valor){
-        head->next = aux->next;
-        free(aux);
+
+    // Verifica se o nó a ser removido é o primeiro
+    if (aux->valor == id) {
+        *head = aux->next; // O cabeçalho agora aponta para o próximo nó
+        int valorRemovido = aux->valor; // Armazena o valor do nó removido
+        free(aux); // Libera o nó removido
+        return valorRemovido; // Retorna o valor do nó removido
     }
-    
-    while(aux->valor != id){
-        prev=aux;
-        aux= aux->next;
+
+    // Procura pelo nó com o valor igual a id
+    while (aux != NULL && aux->valor != id) {
+        prev = aux;
+        aux = aux->next;
     }
-    prev->next = aux->next;
-    free(aux); //o free é apenas no nó removido
+
+    // Se o nó não foi encontrado
+    if (aux == NULL) {
+        return -1; // Não encontrou o nó
+    }
+
+    prev->next = aux->next; // O nó anterior agora aponta para o próximo nó
+    int valorRemovido = aux->valor; // Armazena o valor do nó removido
+    free(aux); // Libera o nó removido
+    return valorRemovido; // Retorna o valor do nó removido
 }
+
 
 
 
