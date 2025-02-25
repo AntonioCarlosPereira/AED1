@@ -107,3 +107,28 @@ int pop(heap *h) {
 
     return raiz;
 }
+
+
+void heapify(int arr[], int n, int i) {
+    int largest = i; // Assume que o maior é o nó atual
+    int left = 2 * i + 1; // Índice do filho esquerdo
+    int right = 2 * i + 2; // Índice do filho direito
+
+    // Verifica se o filho esquerdo existe e é maior que o nó atual
+    if (left < n && arr[left] > arr[largest])
+        largest = left;
+
+    // Verifica se o filho direito existe e é maior que o maior até agora
+    if (right < n && arr[right] > arr[largest])
+        largest = right;
+
+    // Se o maior não for o nó atual, troca e chama recursivamente heapify
+    if (largest != i) {
+        int temp = arr[i];
+        arr[i] = arr[largest];
+        arr[largest] = temp;
+
+        // Recursão para garantir que a subárvore também seja um heap
+        heapify(arr, n, largest);
+    }
+}
