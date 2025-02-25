@@ -7,7 +7,12 @@ int ehBalanceada(No* raiz) {
     int alturaDir = ehBalanceada(raiz->dir);
     if (alturaDir == -1) return -1; // Subárvore direita desbalanceada
 
-    if (abs(alturaEsq - alturaDir) > 1) return -1; // Árvore desbalanceada
+    int diferencaAltura = alturaEsq - alturaDir;
+    if (diferencaAltura > 1 || diferencaAltura < -1) return -1; // Árvore desbalanceada
 
-    return 1 + (alturaEsq > alturaDir ? alturaEsq : alturaDir);
+    if (alturaEsq > alturaDir) {
+        return 1 + alturaEsq;
+    } else {
+        return 1 + alturaDir;
+    }
 }
